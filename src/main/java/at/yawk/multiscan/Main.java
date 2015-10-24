@@ -1,12 +1,14 @@
 package at.yawk.multiscan;
 
 import at.yawk.multiscan.scan.ConcurrentScanner;
+import at.yawk.multiscan.scan.FileScanner;
 import at.yawk.multiscan.scan.SaneScanner;
 import at.yawk.multiscan.scan.Scanner;
 import com.google.inject.Binder;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
+import java.nio.file.Paths;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.prefs.Preferences;
@@ -26,7 +28,14 @@ public class Main extends Application  {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Injector injector = Guice.createInjector(new MainModule());
+        MainModule mainModule = new MainModule();
+
+        String fileParameter = getParameters().getNamed().get("file");
+        if (fileParameter != null) {
+            mainModule.setScanner(new FileScanner(Paths.get(fileParameter)));
+        }
+
+        Injector injector = Guice.createInjector(mainModule);
 
         FXMLLoader loader = injector.getInstance(FXMLLoader.class);
         loader.setControllerFactory(type -> {
@@ -42,7 +51,6 @@ public class Main extends Application  {
         Parent root = loader.load(Main.class.getResourceAsStream("scan_pane.fxml"));
 
         Scene scene = new Scene(root);
-        scene.getStylesheets().add("at/yawk/multiscan/application.css");
 
         primaryStage.setTitle("Scanner");
         primaryStage.setScene(scene);

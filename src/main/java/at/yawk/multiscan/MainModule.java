@@ -13,14 +13,28 @@ import javafx.fxml.FXMLLoader;
  * @author yawkat
  */
 public class MainModule extends AbstractModule {
+    private Scanner scanner = null;
+
+    /**
+     * Override the scanner for this module. The scanner must support concurrent scanning.
+     */
+    public void setScanner(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
     @Override
     protected void configure() {
         bind(Executor.class).toInstance(Executors.newCachedThreadPool());
         bind(Preferences.class).toInstance(Preferences.userNodeForPackage(Main.class));
 
-        SaneScanner saneScanner = new SaneScanner();
-        requestInjection(saneScanner);
-        bind(Scanner.class).toInstance(new ConcurrentScanner(saneScanner));
+        if (this.scanner == null) {
+            SaneScanner saneScanner = new SaneScanner();
+            requestInjection(saneScanner);
+            bind(Scanner.class).toInstance(new ConcurrentScanner(saneScanner));
+        } else {
+            bind(Scanner.class).toInstance(this.scanner);
+        }
+
         bind(FXMLLoader.class).toInstance(new FXMLLoader());
     }
 }
