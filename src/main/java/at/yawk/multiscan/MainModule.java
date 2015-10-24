@@ -6,6 +6,8 @@ import at.yawk.multiscan.scan.Scanner;
 import com.google.inject.AbstractModule;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.prefs.Preferences;
 import javafx.fxml.FXMLLoader;
 
@@ -24,7 +26,16 @@ public class MainModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(Executor.class).toInstance(Executors.newCachedThreadPool());
+        bind(Executor.class).toInstance(Executors.newCachedThreadPool(new ThreadFactory() {
+            private final AtomicInteger index = new AtomicInteger();
+
+            @Override
+            public Thread newThread(Runnable r) {
+                Thread thread = new Thread(r, "Pool thread #" + index.incrementAndGet());
+                thread.setDaemon(true);
+                return thread;
+            }
+        }));
         bind(Preferences.class).toInstance(Preferences.userNodeForPackage(Main.class));
 
         if (this.scanner == null) {

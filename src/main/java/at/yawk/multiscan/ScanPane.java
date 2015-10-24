@@ -18,6 +18,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -44,6 +45,7 @@ public class ScanPane {
     @FXML ProgressBar scanningProgress;
     @FXML Text scanningProgressText;
     @FXML ImageView scanImage;
+    @FXML ScrollPane scanImageContainer;
     @FXML ListView<ScanPage> pageList;
     @FXML TextField nextIndexField;
     @FXML CheckBox dialog;
@@ -123,6 +125,8 @@ public class ScanPane {
                 }
             }
         });
+
+        new ZoomManager(scanImage).applyToHandle(scanImage);
     }
 
     void rescanPage(ScanPage page) {

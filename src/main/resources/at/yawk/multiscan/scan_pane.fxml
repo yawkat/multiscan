@@ -5,7 +5,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
-<BorderPane prefHeight="787.0" prefWidth="1106.0" stylesheets="@application.css" xmlns:fx="http://javafx.com/fxml/1"
+<BorderPane prefHeight="787.0" prefWidth="1106.0" xmlns:fx="http://javafx.com/fxml/1"
             xmlns="http://javafx.com/javafx/8.0.65" fx:controller="at.yawk.multiscan.ScanPane">
     <top>
         <HBox>
@@ -36,7 +36,7 @@
         </VBox>
     </left>
     <center>
-        <ScrollPane>
+        <ScrollPane fx:id="scanImageContainer" pannable="true">
             <ImageView fx:id="scanImage"/>
             <BorderPane.margin>
                 <Insets bottom="5.0" right="5.0" top="5.0"/>

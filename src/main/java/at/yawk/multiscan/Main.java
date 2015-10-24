@@ -1,17 +1,9 @@
 package at.yawk.multiscan;
 
-import at.yawk.multiscan.scan.ConcurrentScanner;
 import at.yawk.multiscan.scan.FileScanner;
-import at.yawk.multiscan.scan.SaneScanner;
-import at.yawk.multiscan.scan.Scanner;
-import com.google.inject.Binder;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.google.inject.Module;
 import java.nio.file.Paths;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.prefs.Preferences;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
