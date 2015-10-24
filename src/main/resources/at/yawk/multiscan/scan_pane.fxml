@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="at.yawk.multiscan.ScanPane">
+    <top>
+        <BorderPane id="path">
+            <center>
+                <TextField fx:id="path"/>
+            </center>
+        </BorderPane>
+    </top>
+    <left>
+        <BorderPane id="pageSelector">
+            <center>
+                <ListView fx:id="pageList"/>
+            </center>
+            <bottom>
+                <BorderPane id="actions">
+                    <center>
+                        <Button text="Scan Another Page" onAction="#addAndScanPage"/>
+                    </center>
+                    <left>
+                        <TextField fx:id="nextIndexField" text="1"/>
+                    </left>
+                </BorderPane>
+            </bottom>
+        </BorderPane>
+    </left>
+    <center>
+        <ScrollPane>
+            <ImageView fx:id="scanImage"/>
+        </ScrollPane>
+    </center>
+    <bottom>
+        <BorderPane>
+            <center>
+                <StackPane>
+                    <ProgressBar fx:id="scanningProgress" maxWidth="Infinity" disable="true" progress="0"/>
+                    <Text fx:id="scanningProgressText" text=""/>
+                </StackPane>
+            </center>
+            <right>
+                <HBox>
+                    <CheckBox fx:id="dialog" text="Dialog"/>
+                    <CheckBox fx:id="beep" text="Beep"/>
+                    <Button fx:id="rescan" text="Rescan Page" onAction="#rescanPage"/>
+                </HBox>
+            </right>
+        </BorderPane>
+    </bottom>
+</BorderPane>
