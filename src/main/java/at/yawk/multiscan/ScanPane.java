@@ -2,7 +2,10 @@ package at.yawk.multiscan;
 
 import at.yawk.multiscan.scan.Scanner;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
@@ -140,9 +143,7 @@ public class ScanPane {
                         Files.createDirectories(containingDir);
                     } catch (FileAlreadyExistsException ignored) {}
                 }
-                try (OutputStream os = Files.newOutputStream(page.getPath())) {
-                    ImageIO.write(image, "PNG", os);
-                }
+                saveImage(page, image);
 
                 WritableImage fxImage = SwingFXUtils.toFXImage(image, null);
                 Platform.runLater(() -> {
@@ -171,6 +172,12 @@ public class ScanPane {
         });
     }
 
+    private void saveImage(ScanPage page, BufferedImage image) throws IOException {
+        try (OutputStream os = Files.newOutputStream(page.getPath())) {
+            ImageIO.write(image, "PNG", os);
+        }
+    }
+
     @FXML
     void addAndScanPage() {
         int index = Integer.parseInt(nextIndexField.getText());
@@ -188,6 +195,38 @@ public class ScanPane {
         if (page != null) {
             rescanPage(page);
         }
+    }
+
+    @FXML
+    void rotateLeft() {
+        rotateImage(-Math.PI / 2);
+    }
+
+    @FXML
+    void rotateRight() {
+        rotateImage(Math.PI / 2);
+    }
+
+    private void rotateImage(double theta) {
+        executor.execute(() -> {
+            ScanPage selectedPage = pageList.getSelectionModel().getSelectedItem();
+            if (selectedPage == null) { return; }
+
+            BufferedImage original = SwingFXUtils.fromFXImage(selectedPage.getImage(), null);
+            BufferedImage rotated = new AffineTransformOp(
+                    AffineTransform.getRotateInstance(
+                            theta, (double) original.getWidth() / 2, (double) original.getHeight() / 2),
+                    AffineTransformOp.TYPE_NEAREST_NEIGHBOR
+            ).filter(original, null);
+
+            try {
+                saveImage(selectedPage, rotated);
+            } catch (IOException e) {
+                e.printStackTrace();
+                // todo
+            }
+            Platform.runLater(() -> selectedPage.setImage(SwingFXUtils.toFXImage(rotated, null)));
+        });
     }
 
     private static class PageThumbnail extends BorderPane {

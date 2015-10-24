@@ -1,45 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
-<BorderPane prefHeight="787.0" prefWidth="1106.0" xmlns:fx="http://javafx.com/fxml/1"
-            xmlns="http://javafx.com/javafx/8.0.65" fx:controller="at.yawk.multiscan.ScanPane">
+
+<BorderPane prefHeight="787.0" prefWidth="1106.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.yawk.multiscan.ScanPane">
     <top>
         <HBox>
             <children>
-                <TextField fx:id="path" HBox.hgrow="ALWAYS"/>
+                <TextField fx:id="path" HBox.hgrow="ALWAYS" />
             </children>
             <BorderPane.margin>
-                <Insets left="5.0" right="5.0" top="5.0"/>
+                <Insets left="5.0" right="5.0" top="5.0" />
             </BorderPane.margin>
         </HBox>
     </top>
     <left>
         <VBox spacing="5.0">
             <children>
-                <ListView fx:id="pageList" VBox.vgrow="ALWAYS"/>
+                <ListView fx:id="pageList" VBox.vgrow="ALWAYS" />
                 <HBox alignment="CENTER" spacing="5.0" VBox.vgrow="NEVER">
                     <children>
-                        <TextField fx:id="nextIndexField" alignment="CENTER_RIGHT" prefColumnCount="3" prefWidth="50.0"
-                                   promptText="Next Page" text="1" HBox.hgrow="NEVER"/>
-                        <Button maxWidth="1.7976931348623157E308" onAction="#addAndScanPage" text="Scan Another Page"
-                                HBox.hgrow="ALWAYS"/>
+                        <TextField fx:id="nextIndexField" alignment="CENTER_RIGHT" prefColumnCount="3" prefWidth="50.0" promptText="Next Page" text="1" HBox.hgrow="NEVER" />
+                        <Button maxWidth="1.7976931348623157E308" onAction="#addAndScanPage" text="Scan Another Page" HBox.hgrow="ALWAYS" />
                     </children>
                 </HBox>
             </children>
             <BorderPane.margin>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </BorderPane.margin>
         </VBox>
     </left>
     <center>
         <ScrollPane fx:id="scanImageContainer" pannable="true">
-            <ImageView fx:id="scanImage"/>
+            <ImageView fx:id="scanImage" />
             <BorderPane.margin>
-                <Insets bottom="5.0" right="5.0" top="5.0"/>
+                <Insets bottom="5.0" right="5.0" top="5.0" />
             </BorderPane.margin>
         </ScrollPane>
     </center>
@@ -47,17 +49,19 @@
         <HBox alignment="CENTER" spacing="5.0">
             <children>
                 <StackPane HBox.hgrow="ALWAYS">
-                    <ProgressBar fx:id="scanningProgress" disable="true" maxWidth="Infinity" progress="0"/>
-                    <Text fx:id="scanningProgressText" text=""/>
+                    <ProgressBar fx:id="scanningProgress" disable="true" maxWidth="Infinity" progress="0" />
+                    <Text fx:id="scanningProgressText" text="" />
                 </StackPane>
                 <HBox alignment="CENTER_RIGHT" spacing="5.0" HBox.hgrow="NEVER">
-                    <CheckBox fx:id="dialog" text="Dialog"/>
-                    <CheckBox fx:id="beep" text="Beep"/>
-                    <Button fx:id="rescan" onAction="#rescanPage" text="Rescan Page"/>
+                    <CheckBox fx:id="dialog" text="Dialog" />
+                    <CheckBox fx:id="beep" text="Beep" />
+               <Button mnemonicParsing="false" onAction="#rotateRight" text="↻" />
+               <Button mnemonicParsing="false" onAction="#rotateLeft" text="↺" />
+                    <Button fx:id="rescan" onAction="#rescanPage" text="Rescan Page" />
                 </HBox>
             </children>
             <BorderPane.margin>
-                <Insets bottom="5.0" left="5.0" right="5.0"/>
+                <Insets bottom="5.0" left="5.0" right="5.0" />
             </BorderPane.margin>
         </HBox>
     </bottom>
